@@ -14,11 +14,14 @@ class PositionConfiguration
     public float $yaw = 0;
     public float $pitch = 0;
 
-    public function __construct(Position $position, float $yaw = 0, float $pitch = 0)
+    public bool $noPosition;
+
+    public function __construct(Position $position, float $yaw = 0, float $pitch = 0, bool $noPosition = false)
     {
         $this->position = $position;
         $this->yaw = $yaw;
         $this->pitch = $pitch;
+        $this->noPosition = $noPosition; //Useful if you want them to teleport to their self (for spectators? on death)
     }
 
     /*
@@ -54,7 +57,27 @@ class PositionConfiguration
         return $this->yaw;
     }
 
+    /**
+     * @return bool
+     */
+    public function isNoPosition(): bool
+    {
+        return $this->noPosition;
+    }
+
+    /**
+     * @param bool $noPosition
+     */
+    public function setNoPosition(bool $noPosition): void
+    {
+        $this->noPosition = $noPosition;
+    }
+
     public function handle(ZeroifyPlayer $player) {
-        $player->teleport($this->getPosition(), $this->getYaw(), $this->getPitch());
+       if(!$this->isNoPosition()) {
+           $player->teleport($this->getPosition(), $this->getYaw(), $this->getPitch());
+       } else {
+           $player->teleport($player->getPosition(), $this->getYaw(), $this->getPitch());
+       }
     }
 }

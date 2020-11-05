@@ -2,10 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08ad7101-399d-4455-868b-43c73e0b2ca2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Zeroify.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Zeroify.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Configuration/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Configuration/Configuration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Configuration/MessageConfiguration.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Configuration/MessageConfiguration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Configuration/PositionConfiguration.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Configuration/PositionConfiguration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Configuration/TimeConfiguration.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Configuration/TimeConfiguration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Events/GameStartEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Events/GameStartEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Events/GameStateChangeEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Events/GameStateChangeEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Events/PlayerTeamChangeEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Events/PlayerTeamChangeEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Observer/Observer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Observer/Observer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/State.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/State.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/StateManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/StateManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/StateTick.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/StateTick.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/Types/StatePlaying.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/Types/StatePlaying.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/Types/StateWaiting.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/State/Types/StateWaiting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Team/Team.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Team/Team.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Team/TeamManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Team/TeamManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Zeroify.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/Zeroify.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/ZeroifyEnvironment.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/ZeroifyEnvironment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/ZeroifyPlayer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/xZeroMCPE/Zeroify/ZeroifyPlayer.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +108,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -119,7 +136,11 @@
       <workItem from="1604024645950" duration="941000" />
       <workItem from="1604025599558" duration="34000" />
       <workItem from="1604026073802" duration="167000" />
-      <workItem from="1604078308707" duration="12361000" />
+      <workItem from="1604078308707" duration="20749000" />
+      <workItem from="1604194032624" duration="2338000" />
+      <workItem from="1604440591082" duration="2437000" />
+      <workItem from="1604443049295" duration="1220000" />
+      <workItem from="1604527274067" duration="6819000" />
     </task>
     <servers />
   </component>
@@ -139,34 +160,41 @@
       <screen x="0" y="40" width="3840" height="1040" />
     </state>
     <state x="1671" y="350" key="#com.intellij.fileTypes.FileTypeChooser/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604024737922" />
-    <state x="1704" y="267" key="#com.intellij.ide.util.MemberChooser" timestamp="1604085361196">
+    <state x="1704" y="267" key="#com.intellij.ide.util.MemberChooser" timestamp="1604442428139">
       <screen x="0" y="40" width="3840" height="1040" />
     </state>
-    <state x="1704" y="267" key="#com.intellij.ide.util.MemberChooser/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604085361196" />
-    <state x="1709" y="40" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1604004273599">
+    <state x="1704" y="267" key="#com.intellij.ide.util.MemberChooser/-3440.40.3440.1400/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080@0.40.3840.1040" timestamp="1604442428139" />
+    <state x="1704" y="267" key="#com.intellij.ide.util.MemberChooser/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604128266585" />
+    <state x="1709" y="40" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1604530829607">
       <screen x="0" y="40" width="3840" height="1040" />
     </state>
-    <state x="1709" y="40" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604004273599" />
-    <state x="1650" y="315" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1604083372686">
+    <state x="1709" y="40" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604530829607" />
+    <state x="1650" y="315" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1604530392291">
       <screen x="0" y="40" width="3840" height="1040" />
     </state>
-    <state x="1650" y="315" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604083372686" />
+    <state x="1650" y="315" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604530392291" />
+    <state x="1663" y="383" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1604127866452">
+      <screen x="0" y="40" width="3840" height="1040" />
+    </state>
+    <state x="1663" y="383" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604127866452" />
     <state x="1683" y="470" key="ComposerInitDialogKey" timestamp="1604024804757">
       <screen x="0" y="40" width="3840" height="1040" />
     </state>
     <state x="1683" y="470" key="ComposerInitDialogKey/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604024804757" />
-    <state x="1661" y="267" key="NewPhpClassDialog" timestamp="1604102044483">
+    <state x="1661" y="267" key="NewPhpClassDialog" timestamp="1604530817497">
       <screen x="0" y="40" width="3840" height="1040" />
     </state>
-    <state x="1661" y="267" key="NewPhpClassDialog/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604102044483" />
-    <state x="648" y="295" key="SettingsEditor" timestamp="1604102570257">
+    <state x="1661" y="267" key="NewPhpClassDialog/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604530817497" />
+    <state x="648" y="295" key="SettingsEditor" timestamp="1604443038959">
       <screen x="0" y="40" width="3840" height="1040" />
     </state>
+    <state x="648" y="295" key="SettingsEditor/-3440.40.3440.1400/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080@0.40.3840.1040" timestamp="1604443038959" />
     <state x="648" y="295" key="SettingsEditor/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604102570257" />
-    <state x="1628" y="277" width="583" height="566" key="find.popup" timestamp="1604116383182">
+    <state x="1628" y="277" width="583" height="566" key="find.popup" timestamp="1604532218310">
       <screen x="0" y="40" width="3840" height="1040" />
     </state>
-    <state x="1628" y="277" width="583" height="566" key="find.popup/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604116383182" />
+    <state x="1628" y="277" width="583" height="566" key="find.popup/-3440.40.3440.1400/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080@0.40.3840.1040" timestamp="1604444234257" />
+    <state x="1628" y="277" width="583" height="566" key="find.popup/0.40.3840.1040/3840.0.1920.1080/5760.0.1920.1080/-3440.0.3440.1440@0.40.3840.1040" timestamp="1604532218310" />
     <state x="1576" y="260" key="run.anything.popup" timestamp="1604012384751">
       <screen x="0" y="40" width="3840" height="1040" />
     </state>

@@ -4,7 +4,10 @@
 namespace xZeroMCPE\Zeroify\Team;
 
 
+use xZeroMCPE\Zeroify\Configuration\MessageConfiguration;
+use xZeroMCPE\Zeroify\Team\Defaults\TeamIdentifiers;
 use xZeroMCPE\Zeroify\Zeroify;
+use xZeroMCPE\Zeroify\ZeroifyPlayer;
 
 class TeamManager
 {
@@ -53,5 +56,37 @@ class TeamManager
             return $this->teams[$name];
         }
         return null;
+    }
+
+    /**
+     * @param string $team
+     * @see TeamIdentifiers::ALL
+     * @see TeamIdentifiers::PLAYER
+     * @see TeamIdentifiers::SPECTATOR
+     * @return ZeroifyPlayer[]
+     */
+    public function getAllPlayers(string $team = TeamIdentifiers::ALL) : array {
+        $players = [];
+
+        foreach (Zeroify::getInstance()->getEnvironment()->getPlugin()->getServer()->getOnlinePlayers() as $player) {
+            if($player instanceof ZeroifyPlayer) {
+                if($team == TeamIdentifiers::ALL) {
+                    $players[] = $player;
+                } else {
+                    if($player->isInTeam() && $player->getTeam()->equalsString($team)) {
+                        $players[] = $player;
+                    }
+                }
+            }
+        }
+        return $players;
+    }
+
+    public function sendMessageAll(MessageConfiguration $configuration) {
+        foreach ($this->getAllPlayers() as $player) {
+            if($player instanceof ZeroifyPlayer) {
+                $configuration->handle($player);
+            }
+        }
     }
 }

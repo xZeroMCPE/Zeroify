@@ -4,13 +4,21 @@
 namespace xZeroMCPE\Zeroify;
 
 
+use pocketmine\level\Position;
+use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use xZeroMCPE\Zeroify\Configuration\Configuration;
+use xZeroMCPE\Zeroify\Configuration\PositionConfiguration;
 use xZeroMCPE\Zeroify\Configuration\TimeConfiguration;
+use xZeroMCPE\Zeroify\Observer\Observer;
 use xZeroMCPE\Zeroify\State\StateManager;
 use xZeroMCPE\Zeroify\State\StateTick;
 use xZeroMCPE\Zeroify\State\StateType;
 use xZeroMCPE\Zeroify\State\Types\StateWaiting;
+use xZeroMCPE\Zeroify\Team\Defaults\PlayerTeam;
+use xZeroMCPE\Zeroify\Team\Defaults\SpectatorTeam;
+use xZeroMCPE\Zeroify\Team\Defaults\TeamIdentifiers;
 use xZeroMCPE\Zeroify\Team\TeamManager;
 
 class Zeroify
@@ -48,6 +56,13 @@ class Zeroify
         $this->environment = $environment;
         $this->configuration = $configuration;
         $this->teamManager = new TeamManager();
+        if(!$this->getTeamManager()->hasDefaultTeam()) {
+            $spawn = Server::getInstance()->getDefaultLevel()->getSpawnLocation();
+            $this->getTeamManager()->addTeam(new PlayerTeam(TeamIdentifiers::PLAYER, new PositionConfiguration($spawn), [], true));
+
+            $this->getTeamManager()->addTeam(new SpectatorTeam(TeamIdentifiers::SPECTATOR, new PositionConfiguration($spawn, 0, 0, true), [], false, false, Player::SPECTATOR));
+        }
+
         $this->stateManager = new StateManager();
 
         $this->getStateManager()->setState(new StateWaiting(StateType::WAITING, new TimeConfiguration((20 * 60) * 5))); // 5 minutes...
@@ -58,12 +73,6 @@ class Zeroify
      */
     public function deploy() {
 
-        /*
-         * Check if they have a default team... prevent stupidity..
-         */
-        if(!$this->getTeamManager()->hasDefaultTeam()) {
-            throw new \Exception("You did not set a default team, Zeroify is not ready!");
-        }
 
         /*
          * Check if they have a state active.
@@ -74,12 +83,15 @@ class Zeroify
 
         $this->getEnvironment()->log(TextFormat::GREEN . "Everything seems good to go, the game shall now launch!");
 
-        $this->getStateManager()->getState()->init();
 
-        /*
-         * Schedule the StateTick now
+        /**
+         * 1. Calls the first/default state init, do stuff needed for first-run
+         * 2. Schedule the StateTick now
+         * 3. Registers the @see Observer listener
          */
+        $this->getStateManager()->getState()->init();
         Zeroify::getInstance()->getEnvironment()->getPlugin()->getScheduler()->scheduleRepeatingTask(new StateTick(), 20);
+        Zeroify::getInstance()->getEnvironment()->getPlugin()->getServer()->getPluginManager()->registerEvents(new Observer(), Zeroify::getInstance()->getEnvironment()->getPlugin());
     }
 
     /**

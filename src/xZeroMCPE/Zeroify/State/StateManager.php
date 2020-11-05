@@ -7,6 +7,7 @@ namespace xZeroMCPE\Zeroify\State;
 use xZeroMCPE\Zeroify\Configuration\PositionConfiguration;
 use xZeroMCPE\Zeroify\Configuration\TimeConfiguration;
 use xZeroMCPE\Zeroify\Events\GameStateChangeEvent;
+use xZeroMCPE\Zeroify\State\Types\StateEnding;
 use xZeroMCPE\Zeroify\State\Types\StatePlaying;
 use xZeroMCPE\Zeroify\State\Types\StateWaiting;
 use xZeroMCPE\Zeroify\Zeroify;
@@ -42,18 +43,22 @@ class StateManager
 
         switch ($this->getState()->getName()) {
             case StateType::WAITING:
-                $newState = new StateWaiting(StateType::WAITING, new TimeConfiguration(0));
+                var_dump($this->getState()->getName() . " with type of " . StateType::PLAYING);
+                $newState = new StatePlaying(StateType::PLAYING, new TimeConfiguration(((60 * 60) * 24) * 5)); // Should be 5 days...
                 break;
             case StateType::PLAYING:
-                $newState = new StatePlaying(StateType::PLAYING, new TimeConfiguration(0));
+                $newState = new StateEnding(StateType::ENDED, new TimeConfiguration(0));
                 break;
         }
 
         if($newState != null) {
-            $ev = (new GameStateChangeEvent(Zeroify::getInstance()->getEnvironment()->getPlugin(), $this->getState(), $newState));
+            $ev = (new GameStateChangeEvent($this->getState(), $newState));
             $ev->call();
-
             $this->setState($ev->getNewState());
         }
+    }
+
+    public function isState(string $state) {
+        return $this->getState()->getName() == $state;
     }
 }

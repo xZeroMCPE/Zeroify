@@ -30,10 +30,14 @@ class Team
     }
 
     /**
+     * @param bool $cap
      * @return string
      */
-    public function getName(): string
+    public function getName($cap = false): string
     {
+        if($cap) {
+            return strtoupper($this->name);
+        }
         return $this->name;
     }
 
@@ -130,6 +134,11 @@ class Team
         return $team->getName() == $this->getName();
     }
 
+    public function equalsString(string $team): bool
+    {
+        return strtolower($team) == strtolower($this->getName());
+    }
+
     public function canAttack(ZeroifyPlayer $player, ZeroifyPlayer  $player2): bool
     {
         if($player->isSameTeam($player2)) {
@@ -160,5 +169,9 @@ class Team
         $player->setHealth($player->getMaxHealth());
         $player->setFood($player->getMaxFood());
         $player->setGamemode($this->getGamemode());
+    }
+
+    public function handleLeave(ZeroifyPlayer $player) {
+        $this->remove($player);
     }
 }

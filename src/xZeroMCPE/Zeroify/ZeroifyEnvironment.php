@@ -15,10 +15,21 @@ class ZeroifyEnvironment
     public int $environment;
     public Plugin  $plugin;
 
+    public static ZeroifyEnvironment $instance;
+
     public function __construct(Plugin  $plugin, int $environment = ZeroifyEnvironment::DEVELOPMENT) {
+        self::$instance = $this;
         $this->plugin = $plugin;
         $this->environment = $environment;
         $this->registerHandler();
+    }
+
+    /**
+     * @return ZeroifyEnvironment
+     */
+    public static function getInstance(): ZeroifyEnvironment
+    {
+        return self::$instance;
     }
 
     /**

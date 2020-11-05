@@ -18,13 +18,13 @@ class PlayerTeamChangeEvent extends PluginEvent implements Cancellable
     public string $oldTeam;
     public bool $isFirstTime;
 
-    public function __construct(Plugin $plugin, ZeroifyPlayer $player, string $team, string $oldTeam, bool $isFirstTime)
+    public function __construct(ZeroifyPlayer $player, string $team, string $oldTeam, bool $isFirstTime)
     {
         $this->player = $player;
         $this->team = $team;
         $this->oldTeam = $oldTeam;
         $this->isFirstTime = $isFirstTime;
-        parent::__construct($plugin);
+        parent::__construct(Zeroify::getInstance()->getEnvironment()->getPlugin());
     }
 
     /**

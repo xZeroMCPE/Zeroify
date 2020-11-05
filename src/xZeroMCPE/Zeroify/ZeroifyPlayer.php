@@ -18,16 +18,19 @@ class ZeroifyPlayer extends Player
      */
     public function setTeam(Team $team): void
     {
-        $ev = new PlayerTeamChangeEvent(Zeroify::getInstance()->getEnvironment()->getPlugin(),
+        $ev = new PlayerTeamChangeEvent(
             $this,
             $team->getName(),
             $this->getTeamAsString(),
             $this->isInTeam());
-        $ev->call();;
+        $ev->call();
 
         if (!$ev->isCancelled()) {
-            Zeroify::getInstance()->getTeamManager()->getTeam($this->getTeamAsString())->remove($this);
+           if($this->isInTeam()) {
+               Zeroify::getInstance()->getTeamManager()->getTeam($this->getTeamAsString())->remove($this);
+           }
             Zeroify::getInstance()->getTeamManager()->getTeam($ev->getTeam())->add($this);
+           $this->team = $team->getName();
         }
     }
 
