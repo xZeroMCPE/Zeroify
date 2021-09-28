@@ -6,6 +6,7 @@ namespace xZeroMCPE\Zeroify\Team;
 
 use pocketmine\Player;
 use xZeroMCPE\Zeroify\Configuration\PositionConfiguration;
+use xZeroMCPE\Zeroify\Zeroify;
 use xZeroMCPE\Zeroify\ZeroifyPlayer;
 
 class Team
@@ -16,10 +17,11 @@ class Team
     public bool $isDefault;
     public bool $friendlyFire;
     public int $gamemode;
+    public bool $playable;
     public PositionConfiguration $position;
 
 
-    public function __construct(string $name, PositionConfiguration $position, array $players = [], bool $isDefault = false, bool $friendlyFire = false, $gamemode = 0)
+    public function __construct(string $name, PositionConfiguration $position, array $players = [], bool $isDefault = false, bool $friendlyFire = false, $gamemode = 0, bool $playable = true)
     {
         $this->name = $name;
         $this->position = $position;
@@ -27,6 +29,7 @@ class Team
         $this->isDefault = $isDefault;
         $this->friendlyFire = $friendlyFire;
         $this->gamemode = $gamemode;
+        $this->playable = $playable;
     }
 
     /**
@@ -114,6 +117,22 @@ class Team
     }
 
     /**
+     * @return bool
+     */
+    public function isPlayable(): bool
+    {
+        return $this->playable;
+    }
+
+    /**
+     * @param bool $playable
+     */
+    public function setPlayable(bool $playable): void
+    {
+        $this->playable = $playable;
+    }
+
+    /**
      * @return PositionConfiguration
      */
     public function getPosition(): PositionConfiguration
@@ -131,12 +150,21 @@ class Team
 
     public function equals(Team $team): bool
     {
-        return $team->getName() == $this->getName();
+        return $team->getName() === $this->getName();
     }
 
     public function equalsString(string $team): bool
     {
-        return strtolower($team) == strtolower($this->getName());
+        return strtolower($team) === strtolower($this->getName());
+    }
+
+    public function getCount() : int {
+        return count($this->players);
+    }
+
+
+    public function alreadyInTest($what) : bool {
+        return isset($this->testCount[$what]);
     }
 
     public function canAttack(ZeroifyPlayer $player, ZeroifyPlayer  $player2): bool
@@ -149,7 +177,8 @@ class Team
         return false;
     }
 
-    public function add(ZeroifyPlayer $player) {
+    public function add(ZeroifyPlayer $player): void
+    {
         $player->getInventory()->clearAll();
         $player->setHealth($player->getMaxHealth());
         $player->setFood($player->getMaxFood());
@@ -157,13 +186,16 @@ class Team
         $this->players[$player->getName()] = $player->getName();
     }
 
-    public function remove(ZeroifyPlayer $player) {
+    public function remove(ZeroifyPlayer $player): void
+    {
         if(isset($this->players[$player->getName()])) {
             unset($this->players[$player->getName()]);
+
+            Zeroify::getInstance()->getTeamManager()->tick();
         }
     }
 
-    public function init(ZeroifyPlayer $player) {
+    public function init(ZeroifyPlayer $player) : void {
         $player->setTeam($this);
         $player->getInventory()->clearAll();
         $player->setHealth($player->getMaxHealth());
@@ -171,7 +203,8 @@ class Team
         $player->setGamemode($this->getGamemode());
     }
 
-    public function handleLeave(ZeroifyPlayer $player) {
+    public function handleLeave(ZeroifyPlayer $player): void
+    {
         $this->remove($player);
     }
 }

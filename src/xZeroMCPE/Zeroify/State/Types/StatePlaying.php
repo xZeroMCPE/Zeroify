@@ -14,7 +14,7 @@ class StatePlaying extends State
         parent::tick();
 
         foreach ($this->getTeamManager()->getAllPlayers() as $player) {
-            $player->sendPopup("Game state: " . $this->getStateManager()->getState()->getName() . "\n" . "Time: " . $this->getTimeConfiguration()->getTimeFormatted());
+            $player->sendPopup("DEBUG" . "\n" . "Game state: " . $this->getStateManager()->getState()->getName() . "\n" . "Time: " . $this->getTimeConfiguration()->getTimeFormatted() . "\n" . "Team: " . $player->getTeam()->getName() . " with count: " . $player->getTeam()->getCount());
         }
     }
 }

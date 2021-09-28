@@ -11,6 +11,7 @@ use pocketmine\utils\TextFormat;
 use xZeroMCPE\Zeroify\Configuration\Configuration;
 use xZeroMCPE\Zeroify\Configuration\PositionConfiguration;
 use xZeroMCPE\Zeroify\Configuration\TimeConfiguration;
+use xZeroMCPE\Zeroify\Game\GameType;
 use xZeroMCPE\Zeroify\Observer\Observer;
 use xZeroMCPE\Zeroify\State\StateManager;
 use xZeroMCPE\Zeroify\State\StateTick;
@@ -50,12 +51,12 @@ class Zeroify
     {
         self::$instance = $this;
 
-        $this->name = $name;
-        $this->minimum = $minimum;
-        $this->maximum = $maximum;
-        $this->environment = $environment;
-        $this->configuration = $configuration;
-        $this->teamManager = new TeamManager();
+        $this->setName($name);
+        $this->setMinimum($minimum);
+        $this->setMaximum($maximum);
+        $this->setEnvironment($environment);
+        $this->setConfiguration($configuration);
+        $this->setTeamManager(new TeamManager());
         if(!$this->getTeamManager()->hasDefaultTeam()) {
             $spawn = Server::getInstance()->getDefaultLevel()->getSpawnLocation();
             $this->getTeamManager()->addTeam(new PlayerTeam(TeamIdentifiers::PLAYER, new PositionConfiguration($spawn), [], true));
@@ -63,26 +64,72 @@ class Zeroify
             $this->getTeamManager()->addTeam(new SpectatorTeam(TeamIdentifiers::SPECTATOR, new PositionConfiguration($spawn, 0, 0, true), [], false, false, Player::SPECTATOR));
         }
 
-        $this->stateManager = new StateManager();
+        $this->setStateManager(new StateManager());
 
         $this->getStateManager()->setState(new StateWaiting(StateType::WAITING, new TimeConfiguration((20 * 60) * 5))); // 5 minutes...
     }
 
-    /*
-     * Use this to deploy the game, aka: you're all done setting it up!
-     */
-    public function deploy() {
 
-
+    public function deploy ($deploy = true)
+    {
         /*
-         * Check if they have a state active.
-         */
-        if(!$this->getStateManager()->hasState()) {
+            * Check if they have a state active.
+            */
+        if (!$this->getStateManager()->hasState()) {
             throw new \Exception("You did not set a state");
         }
 
-        $this->getEnvironment()->log(TextFormat::GREEN . "Everything seems good to go, the game shall now launch!");
+        /*
+         * Check to see if the team they have registered is all good
+         */
+        if ($this->getTeamManager()->getGame()->getType() != GameType::DEFAULT) {
+            foreach ($this->getTeamManager()->getGame()->getTeams() as $team) {
+                if (!$this->getTeamManager()->teamExists($team)) {
+                    if (!$this->getStateManager()->hasState()) {
+                        throw new \Exception("You did not register team: " . $team . " to support game-type of " . $this->getTeamManager()->getGame()->getType());
+                    }
+                }
+            }
+        }
 
+
+        /*
+         * Check to see if the team system iw working properly before deploying the game
+         */
+        if ($this->getTeamManager()->getGame()->getType() != GameType::DEFAULT) {
+
+
+            switch ($this->getTeamManager()->getGame()->getType()) {
+                case GameType::SOLO:
+                case GameType::DUO:
+                case GameType::SQUAD:
+                    $count = 0;
+                    foreach ($this->getTeamManager()->getGame()->getTeams() as $team) {
+                        $team = $this->getTeamManager()->getTeam($team);
+
+                        $count += $this->getTeamManager()->getGame()->getMaxForTeam($team);
+                    }
+                    if($count > $this->getMaximum()) {
+                        throw new \Exception("The game type " . $this->getTeamManager()->getGame()->getType() . " does not have enough teams to support the maximum players of " . $this->getMaximum() . " (current: " . $count . ")");
+                    }
+                    unset($count);
+
+                break;
+            }
+
+
+            if ($deploy) {
+                $this->allGood();
+            }
+        }
+    }
+
+    /*
+     * For internal only.....
+     */
+    protected function allGood() {
+
+        $this->getEnvironment()->log(TextFormat::GREEN . "Everything seems good to go, the game shall now launch!");
 
         /**
          * 1. Calls the first/default state init, do stuff needed for first-run
@@ -203,6 +250,10 @@ class Zeroify
     public function setMaximum(int $maximum): Zeroify
     {
         $this->maximum = $maximum;
+        $class = new \ReflectionClass(Server::getInstance());
+        $property = $class->getProperty("maxPlayers");
+        $property->setAccessible(true);
+        $property->setValue(Server::getInstance(), $maximum);
         return $this;
     }
 

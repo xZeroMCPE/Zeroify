@@ -54,13 +54,14 @@ class StateWaiting extends State
 
     public function finished()
     {
+
+        $this->getTeamManager()->pickTeams();;
+
         /*
         * Teleport them to the game playing world, by accessing their team position
         */
-        foreach (Zeroify::getInstance()->getEnvironment()->getPlugin()->getServer()->getOnlinePlayers() as $player) {
-            if ($player instanceof ZeroifyPlayer) {
-                $player->getTeam()->getPosition()->handle($player);
-            }
+        foreach ($this->getTeamManager()->getAllPlayers() as $player) {
+            $player->getTeam()->getPosition()->handle($player);
         }
 
         /**

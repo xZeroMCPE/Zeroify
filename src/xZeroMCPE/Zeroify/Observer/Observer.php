@@ -9,6 +9,7 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerCreationEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
@@ -20,6 +21,7 @@ use xZeroMCPE\Zeroify\Configuration\MessageConfiguration;
 use xZeroMCPE\Zeroify\Events\PlayerAttackEvent;
 use xZeroMCPE\Zeroify\Events\PlayerAttackUnknownEvent;
 use xZeroMCPE\Zeroify\Events\PlayerJoinGameEvent;
+use xZeroMCPE\Zeroify\Events\PlayerQuitGameEvent;
 use xZeroMCPE\Zeroify\State\State;
 use xZeroMCPE\Zeroify\State\StateType;
 use xZeroMCPE\Zeroify\Team\TeamManager;
@@ -28,6 +30,27 @@ use xZeroMCPE\Zeroify\ZeroifyPlayer;
 
 class Observer implements Listener
 {
+
+    public static Observer $instance;
+
+    public function __construct()
+    {
+        self::$instance = $this;
+    }
+
+    /**
+     * @return Observer
+     */
+    public static function getInstance(): Observer
+    {
+        return self::$instance;
+    }
+
+    /*
+     * When a player tries to join when a game is ended/already started
+     */
+    public $cannotJoinGameCallback = null;
+
 
     public function getConfiguration() :  Configuration {
         return Zeroify::getInstance()->getConfiguration();
@@ -41,6 +64,23 @@ class Observer implements Listener
         $event->setPlayerClass(ZeroifyPlayer::class);
     }
 
+
+    /**
+     * @return callable|null
+     */
+    public function getCannotJoinGameCallback()
+    {
+        return $this->cannotJoinGameCallback;
+    }
+
+    /**
+     * @param callable $cannotJoinGameCallback
+     */
+    public function setCannotJoinGameCallback(callable $cannotJoinGameCallback): void
+    {
+        $this->cannotJoinGameCallback = $cannotJoinGameCallback;
+    }
+
     public function onLogin(PlayerLoginEvent $event)
     {
         $player = $event->getPlayer();
@@ -48,6 +88,7 @@ class Observer implements Listener
         if ($player instanceof ZeroifyPlayer) {
             switch (Zeroify::getInstance()->getStateManager()->getState()->getName()) {
                 case StateType::WAITING:
+                    if(Zeroify::getInstance()->get)
                     $player->setTeam(Zeroify::getInstance()->getTeamManager()->getDefaultTeam());
 
                     Zeroify::getInstance()->getConfiguration()->getLobbyPosition()->handle($player);
@@ -55,7 +96,10 @@ class Observer implements Listener
 
                 case StateType::PLAYING:
                 case StateType::ENDED:
-
+                    if(!is_null($this->getCannotJoinGameCallback())) {
+                        $callback = $this->getCannotJoinGameCallback();
+                        $callback($player);
+                    }
                     break;
             }
         }
@@ -94,7 +138,7 @@ class Observer implements Listener
 
         if ($player instanceof ZeroifyPlayer) {
             Zeroify::getInstance()->getConfiguration()->getLobbyPosition()->handle($player);
-            $ev = new PlayerJoinGameEvent($player, new MessageConfiguration(
+            $ev = new PlayerQuitGameEvent($player, new MessageConfiguration(
                 MessageConfiguration::format("Quit",
                     TextFormat::RED,
                     TextFormat::LIGHT_PURPLE . $player->getDisplayName() . TextFormat::RED . " left!"
@@ -107,7 +151,7 @@ class Observer implements Listener
 
             switch (Zeroify::getInstance()->getStateManager()->getState()->getName()) {
                 case StateType::PLAYING:
-                    $ev = new PlayerJoinGameEvent($player, MessageConfiguration::createEmpty());
+                    $ev = new PlayerQuitGameEvent($player, MessageConfiguration::createEmpty());
                     $ev->call();
                     $player->getTeam()->handleLeave($player);
                     break;
@@ -189,6 +233,27 @@ class Observer implements Listener
             if($this->getConfiguration()->hasBasicProtection()) {
                 $event->setCancelled();
             }
+        }
+    }
+
+    public function onChat(PlayerChatEvent  $event) {
+
+        $player = $event->getPlayer();
+
+        if($player instanceof ZeroifyPlayer) {
+            $format = str_replace(
+                [
+                    "@team",
+                    "@xyz",
+                    "@holding",
+                ],
+                [
+                    $player->getTeam()->getName(true),
+                    $player->getX() . ", " . $player->getY() . ", " . $player->getZ(),
+                    $player->getInventory()->getItemInHand()->isNull() ? "Nothing" : $player->getInventory()->getItemInHand()->getName() . " x" . $player->getInventory()->getItemInHand()->getCount()
+                ], $event->getMessage()
+            );
+            $event->setMessage($format);
         }
     }
 }

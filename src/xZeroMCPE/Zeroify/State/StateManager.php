@@ -16,6 +16,8 @@ class StateManager
 {
     public ?State $state = null;
 
+    // Will always be a team
+    public ?string $winner = null;
 
     /**
      * @return State
@@ -37,6 +39,12 @@ class StateManager
         return $this->state !== null;
     }
 
+    public function endGame(string $winningTeam)
+    {
+        $this->setWinner($winningTeam);
+        $this->switchState();
+    }
+
     public function switchState() {
 
         $newState = null;
@@ -56,6 +64,22 @@ class StateManager
             $ev->call();
             $this->setState($ev->getNewState());
         }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getWinner(): ?string
+    {
+        return $this->winner;
+    }
+
+    /**
+     * @param string|null $winner
+     */
+    public function setWinner(?string $winner): void
+    {
+        $this->winner = $winner;
     }
 
     public function isState(string $state) {
